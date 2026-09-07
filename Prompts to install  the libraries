@@ -1,100 +1,109 @@
 JARVIS v8 - INSTALLATION CHECKLIST (Windows 10/11)
 ====================================================
-Do these steps IN ORDER before running jarvis.py.
+Follow these steps in order before running jarvis.py.
 
 
-STEP 0 - SYSTEM REQUIREMENTS
+STEP 0 - BEFORE YOU START
 -----------------------------
-[ ] Windows 10 or 11 (64-bit)
-[ ] Python 3.12 installed (https://www.python.org/downloads/)
-      - During install, CHECK "Add python.exe to PATH"
-[ ] At least 8 GB free RAM (16 GB recommended) for local AI models
-[ ] At least 10 GB free disk space (for Ollama models)
-[ ] Working microphone and speakers
-[ ] Internet connection (for speech recognition + weather/news)
+You need Windows 10 or 11 (64-bit).
+Install Python 3.12 from https://www.python.org/downloads/
+While installing Python, make sure to check the box that says
+"Add python.exe to PATH".
+Make sure you have at least 8 GB free RAM (16 GB is better).
+Make sure you have at least 10 GB free disk space.
+Make sure your microphone and speakers work.
+Make sure you are connected to the internet.
 
 
-STEP 1 - WINDOWS PRIVACY PERMISSIONS
---------------------------------------
-[ ] Settings > Privacy & Security > Microphone
-      - "Microphone access" = ON
-      - "Let apps access your microphone" = ON
-      - "Let desktop apps access your microphone" = ON
+STEP 1 - TURN ON MICROPHONE PERMISSIONS
+-------------------------------------------
+Go to Settings > Privacy & Security > Microphone.
+Turn ON "Microphone access".
+Turn ON "Let apps access your microphone".
+Turn ON "Let desktop apps access your microphone".
 
 
-STEP 2 - INSTALL OLLAMA
--------------------------
-[ ] Download and install: https://ollama.com/download/windows
-[ ] Open a terminal and run:
+STEP 2 - INSTALL OLLAMA (RUNS THE AI LOCALLY)
+--------------------------------------------------
+Download and install Ollama from https://ollama.com/download/windows
+Open a terminal and run these two commands:
       ollama pull qwen3:8b
       ollama pull qwen2.5vl:7b
-[ ] Keep the Ollama app/service running in the background whenever
-    Jarvis is running (check the system tray).
+Keep the Ollama app running in the background the whole time
+Jarvis is running. You can check for it in the system tray.
 
 
-STEP 3 - INSTALL TESSERACT OCR
----------------------------------
-[ ] Run in PowerShell:
+STEP 3 - INSTALL TESSERACT (READS TEXT FROM SCREEN)
+---------------------------------------------------------
+Open PowerShell and run:
       winget install --exact --id UB-Mannheim.TesseractOCR
-[ ] Confirm it installed to:
+Check that it installed to this exact path:
       C:\Program Files\Tesseract-OCR\tesseract.exe
-[ ] Download Hindi language data (needed for Hindi OCR/on-screen text
-    matching) from:
+Download the Hindi language file from:
       https://github.com/tesseract-ocr/tessdata/raw/main/hin.traineddata
-[ ] Place hin.traineddata in:
+Put that file inside:
       C:\Program Files\Tesseract-OCR\tessdata\
 
 
-STEP 4 - INSTALL PYTHON PACKAGES
------------------------------------
-[ ] Open the project folder in a terminal and run:
+STEP 4 - INSTALL THE PYTHON PACKAGES
+-----------------------------------------
+Open the project folder in a terminal and run this command:
 
 python -m pip install customtkinter feedparser mss numpy ollama psutil PyAutoGUI PyAudio pyperclip pytesseract requests screen-brightness-control SpeechRecognition Pillow pywin32 pystray edge-tts
 
-[ ] If PyAudio fails to install, try:
+If PyAudio fails to install, run these instead:
       pip install pipwin
       pipwin install pyaudio
 
-[ ] After installation finishes, verify pywin32 registered correctly:
+After everything installs, check that pywin32 is working by running:
       python -c "import win32com.client; print('pywin32 OK')"
-    If this errors, run:
+If that gives an error, run:
       python Scripts\pywin32_postinstall.py -install
-    (path may vary; find it inside your Python install's Scripts folder)
+(the exact path may be different on your PC - look inside your
+Python installation's Scripts folder)
 
 
-STEP 5 - VERIFY edge-playback (HINDI VOICE)
-----------------------------------------------
-[ ] Open a NEW terminal (so PATH refreshes) and run:
+STEP 5 - CHECK THAT HINDI VOICE WORKS
+------------------------------------------
+Open a brand new terminal window and run:
       edge-playback --help
-[ ] If "command not found":
-      - Find your Python Scripts folder, e.g.:
+If it says "command not found", do this:
+      Find your Python Scripts folder, for example:
           C:\Users\<you>\AppData\Local\Programs\Python\Python312\Scripts
-      - Add it to your Windows PATH environment variable
-      - Reopen terminal and test again
+      Add that folder to your Windows PATH environment variable
+      Close and reopen the terminal, then test again
 
 
-STEP 6 - FINAL CHECKS BEFORE RUNNING
-----------------------------------------
-[ ] Ollama app is running (check system tray icon)
-[ ] Run: ollama list
-      -> should show qwen3:8b and qwen2.5vl:7b
-[ ] Tesseract path confirmed: C:\Program Files\Tesseract-OCR\tesseract.exe
-[ ] Microphone permissions enabled (Step 1)
-[ ] All pip packages installed with no errors
+STEP 6 - DOUBLE CHECK EVERYTHING BEFORE RUNNING
+-----------------------------------------------------
+Make sure the Ollama app is running (look in the system tray).
+Run "ollama list" and confirm you see both qwen3:8b and qwen2.5vl:7b.
+Confirm Tesseract is at C:\Program Files\Tesseract-OCR\tesseract.exe
+Confirm microphone permissions are turned on (Step 1).
+Confirm all Python packages installed with no errors.
 
 
 STEP 7 - RUN JARVIS
------------------------
-[ ] python jarvis.py
-      (replace "jarvis.py" with your actual filename)
+-------------------------
+Run this command:
+      python jarvis.py
+(use your actual file name if it's different)
 
 
-TROUBLESHOOTING QUICK REFERENCE
------------------------------------
-- "I could not connect to Ollama"        -> Ollama app not running, or model not pulled
-- Hindi speech doesn't play               -> edge-playback not on PATH (see Step 5)
-- Hindi text not detected on screen       -> hin.traineddata missing (see Step 3)
-- Microphone not detected / silent fails  -> Check Windows privacy settings (Step 1)
-- PyAudio install fails                   -> Use pipwin (see Step 4)
-- win32com / SAPI errors                  -> Run pywin32 postinstall script (Step 4)
-- Everything is very slow                 -> Not enough RAM for the 8B models
+IF SOMETHING GOES WRONG
+-----------------------------
+"I could not connect to Ollama"     -> Ollama isn't running, or the model wasn't pulled
+Hindi speech doesn't play            -> edge-playback isn't on PATH, see Step 5
+Hindi text not found on screen       -> hin.traineddata is missing, see Step 3
+Microphone not detected / silent     -> check Windows privacy settings, see Step 1
+PyAudio won't install                -> use pipwin, see Step 4
+win32com or SAPI errors              -> run the pywin32 postinstall script, see Step 4
+Everything feels really slow         -> your PC may not have enough RAM for the AI models
+
+
+NOTE ON SHARING THIS WITH OTHERS
+--------------------------------------
+This assistant will still work fine for anyone, but it currently
+says the name "Arsalan" out loud in a few places. If you're giving
+this to someone else, you may want to change that name in the code
+first.
