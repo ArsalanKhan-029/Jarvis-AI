@@ -1,0 +1,52 @@
+## Requirements and Installation
+
+> **Compatibility:** This project currently supports Windows 10 and Windows 11 only.
+
+### Requirements
+
+- Python 3.12
+- Microphone and speakers
+- Internet connection
+- Ollama
+- Tesseract OCR
+
+### 1. Install Python Libraries
+
+Open the project folder in the VS Code terminal and run:
+
+```powershell
+python -m pip install customtkinter feedparser mss numpy ollama psutil PyAutoGUI PyAudio pyperclip pytesseract requests screen-brightness-control SpeechRecognition Pillow pywin32 pystray edge-tts
+```
+
+### 2. Install Ollama
+
+Download Ollama from [ollama.com/download/windows](https://ollama.com/download/windows), then run:
+
+```powershell
+ollama pull qwen3:8b
+ollama pull qwen2.5vl:7b
+```
+
+Keep Ollama running while using Jarvis.
+
+### 3. Install Tesseract OCR
+
+Run:
+
+```powershell
+winget install --exact --id UB-Mannheim.TesseractOCR
+```
+
+Tesseract must be installed at:
+
+```text
+C:\Program Files\Tesseract-OCR\tesseract.exe
+```
+
+### 4. Run Jarvis
+
+```powershell
+python jarvis.py
+```
+
+Replace `jarvis.py` with the actual name of the Python file if it is different.
